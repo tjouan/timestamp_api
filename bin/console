@@ -11,4 +11,7 @@ require "timestamp_api"
 # Pry.start
 
 require "irb"
-IRB.start
+require "awesome_print"
+require "pry"
+
+Pry.start
