@@ -1,6 +1,6 @@
 # Timestamp API
 
-[![Build Status](https://travis-ci.org/alpinelab/timestamp_api.svg?branch=master)](https://travis-ci.org/alpinelab/timestamp_api)
+[![Build Status](https://travis-ci.org/alpinelab/timestamp_api.svg?branch=master)](https://travis-ci.org/alpinelab/timestamp_api)[![Code Climate](https://codeclimate.com/github/alpinelab/timestamp_api/badges/gpa.svg)](https://codeclimate.com/github/alpinelab/timestamp_api)[![Test Coverage](https://codeclimate.com/github/alpinelab/timestamp_api/badges/coverage.svg)](https://codeclimate.com/github/alpinelab/timestamp_api/coverage)[![Gem Version](https://badge.fury.io/rb/timestamp_api.svg)](https://badge.fury.io/rb/timestamp_api)[![security](https://hakiri.io/github/alpinelab/timestamp_api/master.svg)](https://hakiri.io/github/alpinelab/timestamp_api/master)
 
 This gem is a set of Ruby bindings for the [Timestamp](https://www.timestamphq.com) API.
 
