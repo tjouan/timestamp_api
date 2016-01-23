@@ -1,5 +1,7 @@
 # Timestamp API
 
+[![Build Status](https://travis-ci.org/alpinelab/timestamp_api.svg?branch=master)](https://travis-ci.org/alpinelab/timestamp_api)
+
 This gem is a set of Ruby bindings for the [Timestamp](https://www.timestamphq.com) API.
 
 :warning: The API is not documented nor even officially supported by Timestamp.
