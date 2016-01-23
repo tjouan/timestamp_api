@@ -29,7 +29,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+So far, the only thing you can do is a very basic request:
+
+```ruby
+TimestampAPI.request(:get, "/projects", "YOUR_TIMESTAMP_API_KEY")
+```
 
 ## Development
 
