@@ -6,11 +6,10 @@ module TimestampAPI
   @api_endpoint = "https://api.ontimestamp.com/api"
 
   class << self
-    attr_reader :api_endpoint, :api_key
+    attr_accessor :api_endpoint, :api_key
   end
 
-  def self.request(method, url, api_key = nil)
-    @api_key ||= api_key
+  def self.request(method, url)
     response = RestClient::Request.execute(request_options(method, url))
     JSON.parse(response)
   end

@@ -29,10 +29,14 @@ Or install it yourself as:
 
 ## Usage
 
-So far, the only thing you can do is a very basic request:
-
+First of all, configure your Timestamp API key by setting environment variable `TIMESTAMP_API_KEY` or manually:
 ```ruby
-TimestampAPI.request(:get, "/projects", "YOUR_TIMESTAMP_API_KEY")
+TimestampAPi.api_key = "YOUR_TIMESTAMP_API_KEY"
+```
+
+Then, so far, the only thing you can do is a very basic request:
+```ruby
+TimestampAPI.request(:get, "/projects")
 ```
 
 ## Development
