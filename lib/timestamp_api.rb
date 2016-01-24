@@ -19,6 +19,8 @@ module TimestampAPI
     raise InvalidServerResponse
   end
 
+private
+
   def self.request_options(method, url)
     {
       method:  method,
@@ -26,7 +28,7 @@ module TimestampAPI
       headers: {
         "X-API-Key" => api_key || ENV["TIMESTAMP_API_KEY"] || raise(MissingAPIKey),
         :accept     => :json,
-        :user_agent => "TimestampAPI Ruby gem https://github.com/alpinelab/timestamp_api"
+        :user_agent => "TimestampAPI Ruby gem (https://github.com/alpinelab/timestamp_api)"
       }
     }
   end
@@ -35,7 +37,6 @@ module TimestampAPI
     case json
     when Array then json.map { |item| RecursiveOpenStruct.new(item, recurse_over_arrays: true) }
     when Hash  then RecursiveOpenStruct.new(json, recurse_over_arrays: true)
-    else json
     end
   end
 end
