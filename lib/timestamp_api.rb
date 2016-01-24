@@ -17,9 +17,8 @@ module TimestampAPI
 
   def self.request_options(method, url)
     {
-      method: method,
-      url: api_endpoint + url,
-      verify_ssl: false,
+      method:  method,
+      url:     api_endpoint + url,
       headers: {
         "X-API-Key" => api_key || ENV["TIMESTAMP_API_KEY"],
         :accept     => :json,
