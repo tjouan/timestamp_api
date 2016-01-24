@@ -2,6 +2,7 @@ require "rest-client"
 require "active_support/all"
 
 require "timestamp_api/version"
+require "timestamp_api/errors"
 
 module TimestampAPI
   @api_endpoint = "https://api.ontimestamp.com/api"
@@ -13,6 +14,8 @@ module TimestampAPI
   def self.request(method, url)
     response = RestClient::Request.execute(request_options(method, url))
     json_with_indifferent_access(JSON.parse(response))
+  rescue JSON::ParserError
+    raise InvalidServerResponse
   end
 
   def self.request_options(method, url)
@@ -20,7 +23,7 @@ module TimestampAPI
       method:  method,
       url:     api_endpoint + url,
       headers: {
-        "X-API-Key" => api_key || ENV["TIMESTAMP_API_KEY"],
+        "X-API-Key" => api_key || ENV["TIMESTAMP_API_KEY"] || raise(MissingAPIKey),
         :accept     => :json,
         :user_agent => "TimestampAPI Ruby gem https://github.com/alpinelab/timestamp_api"
       }
