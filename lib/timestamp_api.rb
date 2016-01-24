@@ -1,5 +1,5 @@
 require "rest-client"
-require "active_support/all"
+require "recursive-open-struct"
 
 require "timestamp_api/version"
 require "timestamp_api/errors"
@@ -13,7 +13,7 @@ module TimestampAPI
 
   def self.request(method, url)
     response = RestClient::Request.execute(request_options(method, url))
-    json_with_indifferent_access(JSON.parse(response))
+    objectify(JSON.parse(response))
   rescue JSON::ParserError
     raise InvalidServerResponse
   end
@@ -30,10 +30,10 @@ module TimestampAPI
     }
   end
 
-  def self.json_with_indifferent_access(json)
+  def self.objectify(json)
     case json
-    when Array then json.map(&:with_indifferent_access)
-    when Hash  then json.with_indifferent_access
+    when Array then json.map { |item| RecursiveOpenStruct.new(item, recurse_over_arrays: true) }
+    when Hash  then RecursiveOpenStruct.new(json, recurse_over_arrays: true)
     else json
     end
   end

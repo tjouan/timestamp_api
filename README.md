@@ -36,7 +36,15 @@ TimestampAPi.api_key = "YOUR_TIMESTAMP_API_KEY"
 
 Then, so far, the only thing you can do is a very basic request:
 ```ruby
-TimestampAPI.request(:get, "/projects")
+projects = TimestampAPI.request(:get, "/projects")
+project  = TimestampAPI.request(:get, "/projects/123456")
+```
+
+Response is provided as a [RecursiveOpenStruct](https://github.com/aetherknight/recursive-open-struct) (or as an `Array` of `RecursiveOpenStruct`), thus can be accessed by:
+```ruby
+project.id          # => 80408271
+project.name        # => "Awesome project"
+project.client.name # => "My beloved customer"
 ```
 
 ## Development
