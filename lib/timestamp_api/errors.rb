@@ -7,7 +7,7 @@ module TimestampAPI
 
   class InvalidServerResponse < StandardError
     def message
-      "Server responded with invalid JSON. It may be caused an invalid or revoked API key."
+      "Server responded with invalid JSON. A possible cause is an invalid or revoked API key."
     end
   end
 end
