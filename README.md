@@ -7,9 +7,7 @@
 [![security](https://hakiri.io/github/alpinelab/timestamp_api/master.svg)](https://hakiri.io/github/alpinelab/timestamp_api/master)
 [![Dependency Status](https://gemnasium.com/alpinelab/timestamp_api.svg)](https://gemnasium.com/alpinelab/timestamp_api)
 
-This gem is a set of Ruby bindings for the [Timestamp](https://www.timestamphq.com) API.
-
-:warning: The API is not documented nor even officially supported by Timestamp.
+This gem is an unofficial set of Ruby bindings for the [Timestamp](https://www.timestamphq.com) API.
 
 ## Installation
 
@@ -29,23 +27,59 @@ Or install it yourself as:
 
 ## Usage
 
-First of all, configure your Timestamp API key by setting environment variable `TIMESTAMP_API_KEY` or manually:
+Configure your Timestamp API key by setting environment variable `TIMESTAMP_API_KEY` or manually:
 ```ruby
 TimestampAPi.api_key = "YOUR_TIMESTAMP_API_KEY"
 ```
 
-Then, so far, the only thing you can do is a very basic request:
+List all projects:
 ```ruby
-projects = TimestampAPI.request(:get, "/projects")
-project  = TimestampAPI.request(:get, "/projects/123456")
+projects = TimestampAPI::Project.all
+projects.map(&:name) # => ["A project", "Another project", "One more project"]
+```
+
+Find a given project:
+```ruby
+project = TimestampAPI::Project.find(123456)
+project.client.name # => "My beloved customer"
+```
+
+### Low level API calls
+
+The above methods are simple wrappers around the generic low-level-ish API request method `TimestampAPI.request` that take a HTTP `method` (verb) and a `path` (to be appended to preconfigured API endpoint URL):
+```ruby
+TimestampAPI.request(:get, "/projects")        # Same as TimestampAPI::Project.all
+TimestampAPI.request(:get, "/projects/123456") # Same as TimestampAPI::Project.find(123456)
 ```
 
 Response is provided as a [RecursiveOpenStruct](https://github.com/aetherknight/recursive-open-struct) (or as an `Array` of `RecursiveOpenStruct`), thus can be accessed by:
 ```ruby
-project.id          # => 80408271
+project = TimestampAPI.request(:get, "/projects/123456")
+project.id          # => 123456
 project.name        # => "Awesome project"
 project.client.name # => "My beloved customer"
 ```
+
+## Reverse engineering
+
+As the API is not documented nor even officially supported by Timestamp, we're trying to reverse-engineer it.
+
+:warning: This means that Timestamp can introduce breaking changes within their API without prior notice at any time (and thus break this gem).
+
+It also means that if you're willing to hack into it with us, you're very welcome :+1:
+
+While logged in, the Timestamp API data can be explored from your favourite browser (with a JSON viewer addon, if needed) here: https://api.ontimestamp.com/api
+
+There's also a `bin/console` executable provided with this gem, if you want a REPL to hack around.
+
+### What's implemented already ?
+
+* [x] Project#all
+* [x] Project#find
+
+### What's not implemented yet ?
+
+* [ ] _everything else_ :scream:
 
 ## Development
 

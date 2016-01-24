@@ -3,6 +3,7 @@ require "recursive-open-struct"
 
 require "timestamp_api/version"
 require "timestamp_api/errors"
+require "timestamp_api/project"
 
 module TimestampAPI
   @api_endpoint = "https://api.ontimestamp.com/api"
