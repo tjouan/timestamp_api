@@ -22,14 +22,19 @@ describe TimestampAPI do
 
     before do
       TimestampAPI.api_key = "MY_API_KEY"
-      stub_request(:any, api_url_for("/path")).to_return(body: response)
+      stub_request(:any, api_url_for("/path?param1=value1&param2=value2")).to_return(body: response)
     end
 
-    subject { TimestampAPI.request(:get, "/path") }
+    subject { TimestampAPI.request(:get, "/path", param1: "value1", param2: "value2") }
 
     it "calls the API on the proper endpoint URL" do
       subject
       expect(a_request(:any, api_url_for("/path"))).to have_been_made
+    end
+
+    it "calls the API with given query parameters" do
+      subject
+      expect(a_request(:any, api_url_for("/path?param1=value1&param2=value2"))).to have_been_made
     end
 
     it "calls the API with the proper HTTP verb" do
