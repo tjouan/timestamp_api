@@ -18,21 +18,19 @@ describe TimestampAPI do
   describe ".request(method, url)" do
     def api_url_for(path); TimestampAPI.api_endpoint + path end
 
+    class TimestampAPI::Fake < TimestampAPI::Model; has_attributes :name; end
+
     let(:response) { [].to_json }
 
     before do
       TimestampAPI.api_key = "MY_API_KEY"
+      TimestampAPI::ModelRegistry.register(TimestampAPI::Fake)
       stub_request(:any, api_url_for("/path?param1=value1&param2=value2")).to_return(body: response)
     end
 
     subject { TimestampAPI.request(:get, "/path", param1: "value1", param2: "value2") }
 
-    it "calls the API on the proper endpoint URL" do
-      subject
-      expect(a_request(:any, api_url_for("/path"))).to have_been_made
-    end
-
-    it "calls the API with given query parameters" do
+    it "calls the API on the proper endpoint URL with proper path and proper query string parameters" do
       subject
       expect(a_request(:any, api_url_for("/path?param1=value1&param2=value2"))).to have_been_made
     end
@@ -66,24 +64,22 @@ describe TimestampAPI do
     end
 
     context "when server returns a hash" do
-      let(:response) { {foo: "bar", nested: [key: "value"]}.to_json }
+      let(:response) { {object: "fake", name: "fakename"}.to_json }
 
-      it "returns a RecursiveOpenStruct" do
+      it "creates a Model out of it" do
         data = subject
-        expect(data).to be_a RecursiveOpenStruct
-        expect(data.foo).to eq "bar"
-        expect(data.nested.first.key).to eq "value"
+        expect(data).to be_a TimestampAPI::Model
+        expect(data.name).to eq "fakename"
       end
     end
 
     context "when server returns an array" do
-      let(:response) { [{foo: "bar"}, {nested: [key: "value"]}].to_json }
+      let(:response) { [{object: "fake"}, {object: "fake"}].to_json }
 
-      it "returns an array of RecursiveOpenStruct" do
+      it "returns an array of Collection of Models" do
         data = subject
-        expect(data).to all be_a RecursiveOpenStruct
-        expect(data.first.foo).to eq "bar"
-        expect(data.last.nested.first.key).to eq "value"
+        expect(data).to be_a TimestampAPI::Collection
+        expect(data).to all be_a TimestampAPI::Model
       end
     end
   end

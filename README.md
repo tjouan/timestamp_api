@@ -34,14 +34,37 @@ TimestampAPi.api_key = "YOUR_TIMESTAMP_API_KEY"
 
 List all projects:
 ```ruby
-projects = TimestampAPI::Project.all
-projects.map(&:name) # => ["A project", "Another project", "One more project"]
+TimestampAPI::Project.all
 ```
 
 Find a given project:
 ```ruby
+TimestampAPI::Project.find(123456)
+project.name # => "My awesome project"
+```
+
+Filter projects:
+```ruby
+projects = TimestampAPI::Project.all
+projects.where(is_public: true)                          # => returns all public projects
+projects.where(is_public: true, is_billable: true)       # => returns all projects that are both public and billable
+projects.where(is_public: true).where(is_billable: true) # => same as above: `where` is chainable \o/
+```
+
+The objects are represented by model classes (that inherits from `TimestampAPI::Model`):
+```ruby
 project = TimestampAPI::Project.find(123456)
-project.client.name # => "My beloved customer"
+
+project.class                     # => TimestampAPI::Project
+project.is_a? TimestampAPI::Model # => true
+```
+
+Collections of objects are represented by `TimestampAPI::Collection` that inherits from `Array` (and implement the chainable `.where(conditions)` filter method described above). It means any `Array` method works on `TimestampAPI::Collection`:
+```ruby
+projects = TimestampAPI::Project.all
+
+projects.class       # => TimestampAPI::Collection
+projects.map(&:name) # => ["A project", "Another project", "One more project"]
 ```
 
 ### Low level API calls
@@ -50,14 +73,6 @@ The above methods are simple wrappers around the generic low-level-ish API reque
 ```ruby
 TimestampAPI.request(:get, "/projects")        # Same as TimestampAPI::Project.all
 TimestampAPI.request(:get, "/projects/123456") # Same as TimestampAPI::Project.find(123456)
-```
-
-Response is provided as a [RecursiveOpenStruct](https://github.com/aetherknight/recursive-open-struct) (or as an `Array` of `RecursiveOpenStruct`), thus can be accessed by:
-```ruby
-project = TimestampAPI.request(:get, "/projects/123456")
-project.id          # => 123456
-project.name        # => "Awesome project"
-project.client.name # => "My beloved customer"
 ```
 
 ## Reverse engineering
@@ -79,7 +94,9 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 
 ### What's not implemented yet ?
 
-* [ ] _everything else_ :scream:
+* [ ] _all other models_ :scream:
+* [ ] relationships between models
+* [ ] Unauthorized HTTP code handling
 
 ## Development
 

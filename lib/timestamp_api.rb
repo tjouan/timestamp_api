@@ -1,9 +1,11 @@
 require "rest-client"
-require "recursive-open-struct"
 
 require "timestamp_api/version"
 require "timestamp_api/errors"
-require "timestamp_api/project"
+require "timestamp_api/model_registry"
+require "timestamp_api/model"
+require "timestamp_api/collection"
+require "timestamp_api/models/project"
 
 module TimestampAPI
   @api_endpoint = "https://api.ontimestamp.com/api"
@@ -14,7 +16,7 @@ module TimestampAPI
 
   def self.request(method, url, query_params = {})
     response = RestClient::Request.execute(request_options(method, url, query_params))
-    objectify(JSON.parse(response))
+    modelify(JSON.parse(response))
   rescue JSON::ParserError
     raise InvalidServerResponse
   end
@@ -34,10 +36,10 @@ private
     }
   end
 
-  def self.objectify(json)
+  def self.modelify(json)
     case json
-    when Array then json.map { |item| RecursiveOpenStruct.new(item, recurse_over_arrays: true) }
-    when Hash  then RecursiveOpenStruct.new(json, recurse_over_arrays: true)
+    when Array then Collection.new(json.map { |item| modelify(item) })
+    when Hash  then ModelRegistry.model_for(json).new(json)
     end
   end
 end
