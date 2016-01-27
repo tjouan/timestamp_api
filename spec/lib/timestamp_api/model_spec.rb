@@ -2,18 +2,16 @@ require "spec_helper"
 
 describe TimestampAPI::Model do
 
-  class TimestampAPI::Fake < TimestampAPI::Model
-    has_attributes :name, :age, :born_at
-  end
+  before { fake_model("Fake") { has_attributes :name, :age, :born_at } }
 
   it "registers subclass to the model registry" do
-    expect(TimestampAPI::ModelRegistry.registry["fake"]).to eq TimestampAPI::Fake
+    expect(TimestampAPI::ModelRegistry.registry["fake"]).to eq Fake
   end
 
   describe "#initialize" do
     let(:json_data) { {"object" => "fake", "name" => "Georges"} }
 
-    subject { TimestampAPI::Fake.new(json_data) }
+    subject { Fake.new(json_data) }
 
     context "with non-JSON data" do
       let(:json_data) { "not JSON data" }
@@ -49,7 +47,7 @@ describe TimestampAPI::Model do
   describe "attributes" do
     let(:json_data) { {"object" => "fake", "name" => "Georges", "bornAt" => "60 years ago"} }
 
-    subject { TimestampAPI::Fake.new(json_data) }
+    subject { Fake.new(json_data) }
 
     it "provides attributes to access initialisation data" do
       expect(subject.name).to eq json_data["name"]

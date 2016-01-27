@@ -5,7 +5,7 @@ module TimestampAPI
       @@registry = {}
 
       def register(klass)
-        @@registry[registry_key(klass)] = klass
+        @@registry[registry_key(klass)] = klass unless klass.name.nil?
       end
 
       def registry

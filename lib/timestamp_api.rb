@@ -17,6 +17,8 @@ module TimestampAPI
   def self.request(method, url, query_params = {})
     response = RestClient::Request.execute(request_options(method, url, query_params))
     modelify(JSON.parse(response))
+  rescue RestClient::Forbidden
+    raise InvalidAPIKey
   rescue JSON::ParserError
     raise InvalidServerResponse
   end

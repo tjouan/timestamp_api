@@ -8,3 +8,5 @@ require "pry"
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "timestamp_api"
+
+require "support/fake_model"

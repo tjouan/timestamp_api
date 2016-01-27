@@ -18,13 +18,11 @@ describe TimestampAPI do
   describe ".request(method, url)" do
     def api_url_for(path); TimestampAPI.api_endpoint + path end
 
-    class TimestampAPI::Fake < TimestampAPI::Model; has_attributes :name; end
-
     let(:response) { [].to_json }
 
     before do
       TimestampAPI.api_key = "MY_API_KEY"
-      TimestampAPI::ModelRegistry.register(TimestampAPI::Fake)
+      fake_model("Fake") { has_attributes :name }
       stub_request(:any, api_url_for("/path?param1=value1&param2=value2")).to_return(body: response)
     end
 
