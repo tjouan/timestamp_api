@@ -7,6 +7,13 @@ describe TimestampAPI::MissingAPIKey do
   end
 end
 
+describe TimestampAPI::InvalidAPIKey do
+  it "defines a custom message" do
+    expect(TimestampAPI::InvalidAPIKey.instance_methods(false)).to include :message
+    expect(TimestampAPI::InvalidAPIKey.new.message).to match /\w+/
+  end
+end
+
 describe TimestampAPI::InvalidServerResponse do
   it "defines a custom message" do
     expect(TimestampAPI::InvalidServerResponse.instance_methods(false)).to include :message

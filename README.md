@@ -96,7 +96,6 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 
 * [ ] _all other models_ :scream:
 * [ ] relationships between models
-* [ ] Unauthorized HTTP code handling
 
 ## Development
 

@@ -53,11 +53,19 @@ describe TimestampAPI do
       expect(a_request(:any, /.*/).with(headers: {"User-Agent" => "TimestampAPI Ruby gem (https://github.com/alpinelab/timestamp_api)"})).to have_been_made
     end
 
+    context "when server returns an HTTP 403 (Unauthorized) error code" do
+      before { stub_request(:any, api_url_for("/path?param1=value1&param2=value2")).to_return(status: 403, body: "Unauthorized") }
+
+      it "raises a InvalidAPIKey error" do
+        expect{ subject }.to raise_error TimestampAPI::InvalidAPIKey
+      end
+    end
+
     context "when server returns HTML instead of JSON" do
       let(:response) { "<html>Some HTML</html>" }
 
       it "raises a InvalidServerResponse error" do
-        expect{ subject }.to raise_error(TimestampAPI::InvalidServerResponse)
+        expect{ subject }.to raise_error TimestampAPI::InvalidServerResponse
       end
     end
 

@@ -5,9 +5,15 @@ module TimestampAPI
     end
   end
 
+  class InvalidAPIKey < StandardError
+    def message
+      "Configured API key is invalid."
+    end
+  end
+
   class InvalidServerResponse < StandardError
     def message
-      "Server responded with invalid JSON. A possible cause is an invalid or revoked API key."
+      "Server responded with invalid JSON."
     end
   end
 
