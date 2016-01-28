@@ -88,5 +88,14 @@ describe TimestampAPI do
         expect(data).to all be_a TimestampAPI::Model
       end
     end
+
+    context "when verbosity is on" do
+      before { TimestampAPI.verbose = true }
+
+      it "prints out useful info" do
+        expect($stdout).to receive(:write).at_least(:once)
+        subject
+      end
+    end
   end
 end

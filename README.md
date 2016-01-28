@@ -75,6 +75,11 @@ TimestampAPI.request(:get, "/projects")        # Same as TimestampAPI::Project.a
 TimestampAPI.request(:get, "/projects/123456") # Same as TimestampAPI::Project.find(123456)
 ```
 
+To output all network requests done, you can set verbosity on:
+```ruby
+TimestampAPI.verbose = true
+```
+
 ## Reverse engineering
 
 As the API is not documented nor even officially supported by Timestamp, we're trying to reverse-engineer it.
