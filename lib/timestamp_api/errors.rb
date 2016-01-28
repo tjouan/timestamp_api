@@ -55,4 +55,17 @@ module TimestampAPI
       "Conditions passed to `Collection#where` must be a hash."
     end
   end
+
+  class ResourceNotFound < StandardError
+    attr_reader :klass, :id
+
+    def initialize(klass, id)
+      @klass = klass
+      @id    = id
+    end
+
+    def message
+      "No `#{klass}` was found with id `#{id}` (API returned 404)"
+    end
+  end
 end

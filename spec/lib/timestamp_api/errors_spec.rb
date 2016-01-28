@@ -54,3 +54,13 @@ describe TimestampAPI::InvalidWhereContitions do
     expect(TimestampAPI::InvalidWhereContitions.new.message).to match /\w+/
   end
 end
+
+describe TimestampAPI::ResourceNotFound do
+  before { fake_model("Fake") }
+
+  it "defines a custom message containing argument given" do
+    expect(TimestampAPI::ResourceNotFound.instance_methods(false)).to include :message
+    expect(TimestampAPI::ResourceNotFound.new(Fake, 123).message).to match /Fake/
+    expect(TimestampAPI::ResourceNotFound.new(Fake, 123).message).to match /123/
+  end
+end

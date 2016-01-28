@@ -11,6 +11,8 @@ module TimestampAPI
       def find(id)
         return nil if id.nil?
         TimestampAPI.request(:get, "/projects/#{id}")
+      rescue RestClient::ResourceNotFound
+        raise ResourceNotFound.new(self, id)
       end
     end
   end
