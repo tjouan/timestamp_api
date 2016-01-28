@@ -38,7 +38,7 @@ module TimestampAPI
     attr_reader :json_object
 
     def initialize(json_object = nil)
-      @json_object  = json_object
+      @json_object = json_object
     end
 
     def message

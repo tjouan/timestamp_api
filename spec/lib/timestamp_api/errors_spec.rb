@@ -22,22 +22,24 @@ describe TimestampAPI::InvalidServerResponse do
 end
 
 describe TimestampAPI::InvalidModelData do
-  it "defines a custom message containing arguments passed" do
+  before { fake_model("Fake") }
+
+  it "defines a custom message containing arguments given" do
     expect(TimestampAPI::InvalidModelData.instance_methods(false)).to include :message
-    expect(TimestampAPI::InvalidModelData.new(Array, {"object" => "hash"}).message).to match /Array/
-    expect(TimestampAPI::InvalidModelData.new(Array, {"object" => "hash"}).message).to match /hash/
+    expect(TimestampAPI::InvalidModelData.new(Fake, {"object" => "fake"}).message).to match /Fake/
+    expect(TimestampAPI::InvalidModelData.new(Fake, {"object" => "fake"}).message).to match /fake/
   end
 
   it "has a different message when argument is not a Hash" do
-    expect(TimestampAPI::InvalidModelData.new(Array, "hash").message).to match /\w+/
-    expect(TimestampAPI::InvalidModelData.new(Array, "hash").message).to_not eq TimestampAPI::InvalidModelData.new(Array, {"object" => "hash"}).message
+    expect(TimestampAPI::InvalidModelData.new(Fake, "fake").message).to match /\w+/
+    expect(TimestampAPI::InvalidModelData.new(Fake, "fake").message).to_not eq TimestampAPI::InvalidModelData.new(Fake, {"object" => "fake"}).message
   end
 end
 
 describe TimestampAPI::UnknownModelData do
-  it "defines a custom message containing argument passed" do
+  it "defines a custom message containing argument given" do
     expect(TimestampAPI::UnknownModelData.instance_methods(false)).to include :message
-    expect(TimestampAPI::UnknownModelData.new("array").message).to match /array/
+    expect(TimestampAPI::UnknownModelData.new("not_a_model").message).to match /not_a_model/
   end
 
   it "has a special message when argument is nil" do
