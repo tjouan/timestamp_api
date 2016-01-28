@@ -9,7 +9,7 @@ describe TimestampAPI::Model do
   end
 
   describe "#initialize" do
-    let(:json_data) { {"object" => "fake", "name" => "Georges"} }
+    let(:json_data) { {"object" => "fake", "name" => "Georges", "undeclaredAttribute" => "hidden"} }
 
     subject { Fake.new(json_data) }
 
@@ -49,7 +49,17 @@ describe TimestampAPI::Model do
 
     subject { Fake.new(json_data) }
 
-    it "provides attributes to access initialisation data" do
+    it "provides configurable attributes to access initialisation data" do
+      expect(subject.name).to eq json_data["name"]
+    end
+
+    it "does not access JSON data if the attribute has not been defined" do
+      expect{ subject.undeclared_attribute }.to raise_error NoMethodError
+    end
+
+    it "handles multiple `has_attributes` definitions" do
+      Fake.class_eval{ has_attributes :undeclared_attribute }
+      expect(subject.undeclared_attribute).to eq json_data["undeclaredAttribute"]
       expect(subject.name).to eq json_data["name"]
     end
 

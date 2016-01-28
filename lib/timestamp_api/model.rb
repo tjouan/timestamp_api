@@ -1,5 +1,7 @@
 module TimestampAPI
   class Model
+    @@attributes = []
+
     def initialize(json_data)
       validate_init_data! json_data
       @@attributes.each { |attr| instance_variable_set(:"@#{attr}", json_data[camelize(attr)]) }
@@ -7,7 +9,7 @@ module TimestampAPI
 
     def self.has_attributes(*attributes)
       attr_accessor *attributes
-      @@attributes = attributes
+      @@attributes += attributes
     end
 
     def self.inherited(subclass)
