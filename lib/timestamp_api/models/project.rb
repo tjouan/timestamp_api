@@ -9,6 +9,7 @@ module TimestampAPI
       end
 
       def find(id)
+        return nil if id.nil?
         TimestampAPI.request(:get, "/projects/#{id}")
       end
     end

@@ -12,4 +12,8 @@ describe TimestampAPI::Client, ".find(id)" do
     expect(TimestampAPI).to receive(:request).with(:get, "/clients/42")
     TimestampAPI::Client.find(42)
   end
+
+  it "returns nil if `id` is nil" do
+    expect(TimestampAPI::Client.find(nil)).to be nil
+  end
 end
