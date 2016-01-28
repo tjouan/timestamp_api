@@ -7,6 +7,7 @@ require "timestamp_api/model_registry"
 require "timestamp_api/model"
 require "timestamp_api/collection"
 require "timestamp_api/models/project"
+require "timestamp_api/models/client"
 
 module TimestampAPI
   @api_endpoint = "https://api.ontimestamp.com/api"
