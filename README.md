@@ -32,6 +32,8 @@ Configure your Timestamp API key by setting environment variable `TIMESTAMP_API_
 TimestampAPi.api_key = "YOUR_TIMESTAMP_API_KEY"
 ```
 
+### Projects
+
 List all projects:
 ```ruby
 TimestampAPI::Project.all
@@ -39,17 +41,33 @@ TimestampAPI::Project.all
 
 Find a given project:
 ```ruby
-TimestampAPI::Project.find(123456)
+project = TimestampAPI::Project.find(123)
+
 project.name # => "My awesome project"
 ```
 
-Filter projects:
+### Clients
+
+List all clients:
 ```ruby
-projects = TimestampAPI::Project.all
-projects.where(is_public: true)                          # => returns all public projects
-projects.where(is_public: true, is_billable: true)       # => returns all projects that are both public and billable
-projects.where(is_public: true).where(is_billable: true) # => same as above: `where` is chainable \o/
+TimestampAPI::Client.all
 ```
+
+Find a given client:
+```ruby
+client = TimestampAPI::Client.find(123)
+
+client.name # => "My beloved customer"
+```
+
+Find the client of a project
+```ruby
+project = TimestampAPI::Project.find(123)
+
+project.client.name # => "My beloved customer"
+```
+
+## Models
 
 The objects are represented by model classes (that inherits from `TimestampAPI::Model`):
 ```ruby
@@ -66,6 +84,19 @@ projects = TimestampAPI::Project.all
 projects.class       # => TimestampAPI::Collection
 projects.map(&:name) # => ["A project", "Another project", "One more project"]
 ```
+
+## Filtering
+
+You can filter any object collection using the handy `.where()` syntax:
+```ruby
+projects = TimestampAPI::Project.all
+
+projects.where(is_public: true)                          # => returns all public projects
+projects.where(is_public: true, is_billable: true)       # => returns all projects that are both public and billable
+projects.where(is_public: true).where(is_billable: true) # => same as above: `where` is chainable \o/
+```
+
+:information_source: This does not filter objects **before** the network call (like ActiveRecord does), it's only a more elegant way of calling `Array#select` on the `Collection`
 
 ### Low level API calls
 
