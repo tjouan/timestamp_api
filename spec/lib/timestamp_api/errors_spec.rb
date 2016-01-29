@@ -55,6 +55,16 @@ describe TimestampAPI::InvalidWhereContitions do
   end
 end
 
+describe TimestampAPI::UnknownAssociation do
+  before { fake_model("Fake") }
+
+  it "defines a custom message containing arguments given" do
+    expect(TimestampAPI::UnknownAssociation.instance_methods(false)).to include :message
+    expect(TimestampAPI::UnknownAssociation.new(Fake, "unknown_association").message).to match /Fake/
+    expect(TimestampAPI::UnknownAssociation.new(Fake, "unknown_association").message).to match /unknown_association/
+  end
+end
+
 describe TimestampAPI::ResourceNotFound do
   before { fake_model("Fake") }
 

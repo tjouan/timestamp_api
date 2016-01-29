@@ -56,6 +56,19 @@ module TimestampAPI
     end
   end
 
+  class UnknownAssociation < StandardError
+    attr_reader :klass, :association_name
+
+    def initialize(klass, association_name)
+      @klass            = klass
+      @association_name = association_name
+    end
+
+    def message
+      "Association `#{association_name}` could not be found on model `#{klass}`."
+    end
+  end
+
   class ResourceNotFound < StandardError
     attr_reader :klass, :id
 
