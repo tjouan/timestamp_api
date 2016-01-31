@@ -83,4 +83,3 @@ describe TimestampAPI::APIPathNotSet do
     expect(TimestampAPI::APIPathNotSet.new(Fake).message).to match /Fake/
   end
 end
-

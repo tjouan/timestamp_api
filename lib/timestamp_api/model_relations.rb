@@ -3,6 +3,8 @@ module TimestampAPI
     def self.included(base)
       base.extend(ClassMethods)
       base.class_eval do
+        include Utils
+
         alias_method :initialize_without_relations, :initialize
         def initialize(json_data)
           initialize_without_relations(json_data)
