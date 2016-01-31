@@ -14,15 +14,15 @@ module TimestampAPI
         path.nil? ? self.class_variable_get(:@@api_path) : self.class_variable_set(:@@api_path, path)
       end
 
-      def all
+      def all(query_params = {})
         raise APIPathNotSet.new(self) if api_path.nil?
-        TimestampAPI.request(:get, api_path)
+        TimestampAPI.request(:get, api_path, query_params)
       end
 
-      def find(id)
+      def find(id, query_params = {})
         return nil if id.nil?
         raise APIPathNotSet.new(self) if api_path.nil?
-        TimestampAPI.request(:get, "#{api_path}/#{id}")
+        TimestampAPI.request(:get, "#{api_path}/#{id}", query_params)
       rescue RestClient::ResourceNotFound
         raise ResourceNotFound.new(self, id)
       end

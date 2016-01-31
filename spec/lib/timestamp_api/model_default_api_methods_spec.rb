@@ -23,8 +23,13 @@ describe TimestampAPI::ModelDefaultAPIMethods do
     before { Fake.class_eval { api_path "/fakes" } }
 
     it "calls GET :api_path" do
-      expect(TimestampAPI).to receive(:request).with(:get, "/fakes")
+      expect(TimestampAPI).to receive(:request).with(:get, "/fakes", {})
       Fake.all
+    end
+
+    it "can be given query parameters" do
+      expect(TimestampAPI).to receive(:request).with(:get, "/fakes", {param: "value"})
+      Fake.all(param: "value")
     end
 
     context "when `api_path` is not set" do
@@ -40,7 +45,7 @@ describe TimestampAPI::ModelDefaultAPIMethods do
     before { Fake.class_eval { api_path "/fakes" } }
 
     it "calls GET :api_path/:id" do
-      expect(TimestampAPI).to receive(:request).with(:get, "/fakes/42")
+      expect(TimestampAPI).to receive(:request).with(:get, "/fakes/42", {})
       Fake.find(42)
     end
 
@@ -49,7 +54,7 @@ describe TimestampAPI::ModelDefaultAPIMethods do
     end
 
     context "when no project with this id exists" do
-      before { allow(TimestampAPI).to receive(:request).with(:get, "/fakes/not_existing").and_raise(RestClient::ResourceNotFound) }
+      before { allow(TimestampAPI).to receive(:request).with(:get, "/fakes/not_existing", {}).and_raise(RestClient::ResourceNotFound) }
 
       it "raises a ResourceNotFound error" do
         expect{ Fake.find("not_existing") }.to raise_error TimestampAPI::ResourceNotFound
