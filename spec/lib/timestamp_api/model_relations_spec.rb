@@ -21,6 +21,14 @@ describe TimestampAPI::ModelRelations do
     expect(Client).to have_received(:find).with(client.id).once
   end
 
+  context "when item is linked by its ID only" do
+    let(:project) { Project.new("object" => "project", "id" => "p1", "clientId" => client.id) }
+
+    it "can find the link item too" do
+      expect(project.client).to eq client
+    end
+  end
+
   context "when it belongs_to something that is not initialized" do
     let(:project) { Project.new("object" => "project", "id" => "p1") }
 

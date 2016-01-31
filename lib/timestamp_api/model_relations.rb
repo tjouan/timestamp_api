@@ -5,7 +5,11 @@ module TimestampAPI
       base.class_eval do
         after_initialize do
           self.class.class_variable_get(:@@belongs_to).each do |association_name|
-            instance_variable_set(:"@_#{association_name}_id", json_data[camelize(association_name)]["id"]) if json_data.has_key? camelize(association_name)
+            if json_data.has_key? camelize("#{association_name}_id") # e.g. "projectId" in tasks
+              instance_variable_set(:"@_#{association_name}_id", json_data[camelize("#{association_name}_id")])
+            elsif json_data.has_key? camelize(association_name) # e.g. "client" hash with "id" item in projects
+              instance_variable_set(:"@_#{association_name}_id", json_data[camelize(association_name)]["id"])
+            end
           end
         end
 
