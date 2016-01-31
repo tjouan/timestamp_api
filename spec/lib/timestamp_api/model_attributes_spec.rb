@@ -3,19 +3,7 @@ require "spec_helper"
 describe TimestampAPI::ModelAttributes do
   let(:json_data) { {"object" => "fake", "name" => "Georges", "bornAt" => "60 years ago"} }
 
-  before do
-    stub_const("FakeBaseModel", Class.new)
-    FakeBaseModel.class_eval do
-      attr_reader :json_data
-
-      def initialize(json_data)
-        @json_data = json_data
-      end
-
-      include TimestampAPI::ModelAttributes
-    end
-    fake_model("Fake", FakeBaseModel)
-  end
+  before { fake_model("Fake") }
 
   subject { Fake.new(json_data) }
 

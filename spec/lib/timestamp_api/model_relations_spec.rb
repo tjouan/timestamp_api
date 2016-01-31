@@ -6,19 +6,8 @@ describe TimestampAPI::ModelRelations do
   let(:project)   { Project.new "object" => "project", "id" => "p1", "client" => {"id" => client.id} }
 
   before do
-    stub_const("FakeBaseModel", Class.new)
-    FakeBaseModel.class_eval do
-      attr_reader :json_data
-
-      def initialize(json_data)
-        @json_data = json_data
-      end
-
-      include TimestampAPI::ModelAttributes
-      include TimestampAPI::ModelRelations
-    end
-    fake_model("Client", FakeBaseModel)  { has_attributes :id }
-    fake_model("Project", FakeBaseModel) { has_attributes :id; belongs_to :client }
+    fake_model("Client")  { has_attributes :id }
+    fake_model("Project") { has_attributes :id; belongs_to :client }
     allow(Client).to receive(:find).with(nil).and_return(nil)
     allow(Client).to receive(:find).with(client.id).and_return(client)
   end
