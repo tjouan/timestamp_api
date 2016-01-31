@@ -125,8 +125,8 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 
 ### What's implemented already ?
 
-* [x] `Project#all`
-* [x] `Project#find`
+* [x] `Project` model
+* [x] `Client` model
 * [x] `belongs_to` relationships
 
 ### What's not implemented yet ?
