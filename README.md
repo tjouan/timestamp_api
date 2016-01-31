@@ -128,6 +128,7 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 * [x] `Project` model
 * [x] `Client` model
 * [x] `Task` model
+* [x] `User` model (their `roles` could be enhanced, though)
 * [x] `belongs_to` relationships
 
 ### What's not implemented yet ?
