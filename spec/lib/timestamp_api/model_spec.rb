@@ -8,6 +8,10 @@ describe TimestampAPI::Model do
     expect(TimestampAPI::ModelRegistry.registry["fake"]).to eq Fake
   end
 
+  it "includes ModelDefaultAPIMethods" do
+    expect(TimestampAPI::Model.included_modules).to include TimestampAPI::ModelDefaultAPIMethods
+  end
+
   describe "#initialize" do
     let(:json_data) { {"object" => "fake", "name" => "Georges", "undeclaredAttribute" => "hidden"} }
 

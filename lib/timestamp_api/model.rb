@@ -14,6 +14,7 @@ module TimestampAPI
     include Utils
     include ModelAttributes
     include ModelRelations
+    include ModelDefaultAPIMethods
 
   private
 
