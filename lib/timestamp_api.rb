@@ -14,6 +14,7 @@ require "timestamp_api/collection"
 require "timestamp_api/models/project"
 require "timestamp_api/models/client"
 require "timestamp_api/models/task"
+require "timestamp_api/models/user"
 
 module TimestampAPI
   extend Utils
