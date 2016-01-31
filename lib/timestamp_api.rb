@@ -1,5 +1,6 @@
 require "rest-client"
 require "colorize"
+require "hooks"
 
 require "timestamp_api/version"
 require "timestamp_api/errors"

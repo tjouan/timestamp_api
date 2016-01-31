@@ -3,40 +3,24 @@ module TimestampAPI
     def self.included(base)
       base.extend(ClassMethods)
       base.class_eval do
-        include Utils
-
-        alias_method :initialize_without_attributes, :initialize
-        define_method(:initialize) do |json_data|
-          initialize_without_attributes(json_data)
-          initialize_attributes
+        after_initialize do
+          self.class.class_variable_get(:@@attributes).each do |attribute|
+            instance_variable_set(:"@#{attribute}", json_data[camelize(attribute)])
+          end
         end
 
-        class << self
-          alias_method :inherited_without_attributes, :inherited
-          define_method(:inherited) do |subclass|
-            inherited_without_attributes(subclass)
-            subclass.class_variable_set(:@@attributes, [])
-          end
+        after_inherited do |subclass|
+          subclass.class_variable_set(:@@attributes, [])
         end
       end
     end
 
     module ClassMethods
       def has_attributes(*attributes)
+        # Add those attributes to the list of attributes for this class
         self.class_variable_set(:@@attributes, self.class_variable_get(:@@attributes) + attributes)
-        define_attributes_getters(*attributes)
-      end
-
-    private
-
-      def define_attributes_getters(*attributes)
+        # Define getters for those attributes
         self.send(:attr_accessor, *attributes)
-      end
-    end
-
-    def initialize_attributes
-      self.class.class_variable_get(:@@attributes).each do |attribute|
-        instance_variable_set(:"@#{attribute}", json_data[camelize(attribute)])
       end
     end
   end

@@ -1,10 +1,7 @@
 require "spec_helper"
 
 describe TimestampAPI::ModelDefaultAPIMethods do
-  before do
-    stub_const("Fake", Class.new)
-    Fake.class_eval { include TimestampAPI::ModelDefaultAPIMethods }
-  end
+  before { fake_model("Fake") }
 
   describe ".api_path" do
     context "with an argument" do

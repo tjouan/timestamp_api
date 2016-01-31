@@ -2,19 +2,24 @@ module TimestampAPI
   class Model
     attr_reader :json_data
 
-    def self.inherited(subclass)
-      ModelRegistry.register(subclass)
-    end
-
-    def initialize(json_data)
-      @json_data = json_data
-      validate_init_data!
-    end
+    include Hooks
+    define_hooks :after_initialize, :after_inherited
 
     include Utils
     include ModelAttributes
     include ModelRelations
     include ModelDefaultAPIMethods
+
+    def self.inherited(subclass)
+      ModelRegistry.register(subclass)
+      run_hook :after_inherited, subclass
+    end
+
+    def initialize(json_data)
+      @json_data = json_data
+      validate_init_data!
+      run_hook :after_initialize
+    end
 
   private
 

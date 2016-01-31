@@ -3,12 +3,8 @@ module TimestampAPI
     def self.included(base)
       base.extend(ClassMethods)
       base.class_eval do
-        class << self
-          alias_method :inherited_without_default_api_methods, :inherited
-          define_method(:inherited) do |subclass|
-            inherited_without_default_api_methods(subclass)
-            subclass.class_variable_set(:@@api_path, nil)
-          end
+        after_inherited do |subclass|
+          subclass.class_variable_set(:@@api_path, nil)
         end
       end
     end
