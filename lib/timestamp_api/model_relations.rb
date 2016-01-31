@@ -6,14 +6,14 @@ module TimestampAPI
         include Utils
 
         alias_method :initialize_without_relations, :initialize
-        def initialize(json_data)
+        define_method(:initialize) do |json_data|
           initialize_without_relations(json_data)
           initialize_belongs_to
         end
 
         class << self
           alias_method :inherited_without_relations, :inherited
-          def inherited(subclass)
+          define_method(:inherited) do |subclass|
             inherited_without_relations(subclass)
             subclass.class_variable_set(:@@belongs_to, [])
           end

@@ -5,7 +5,7 @@ module TimestampAPI
       base.class_eval do
         class << self
           alias_method :inherited_without_default_api_methods, :inherited
-          def inherited(subclass)
+          define_method(:inherited) do |subclass|
             inherited_without_default_api_methods(subclass)
             subclass.class_variable_set(:@@api_path, nil)
           end
