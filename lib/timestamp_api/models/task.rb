@@ -6,12 +6,8 @@ module TimestampAPI
 
     belongs_to :project
 
-    def self.for_project(project)
-      for_project_id(project.id)
-    end
-
     def self.for_project_id(project_id)
-      TimestampAPI.request(:get, api_path, {projectId: project_id})
+      all(project_id: project_id)
     end
   end
 end
