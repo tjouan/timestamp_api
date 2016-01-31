@@ -32,7 +32,7 @@ Configure your Timestamp API key by setting environment variable `TIMESTAMP_API_
 TimestampAPi.api_key = "YOUR_TIMESTAMP_API_KEY"
 ```
 
-### Projects
+#### Projects
 
 List all projects:
 ```ruby
@@ -46,7 +46,7 @@ project = TimestampAPI::Project.find(123)
 project.name # => "My awesome project"
 ```
 
-### Clients
+#### Clients
 
 List all clients:
 ```ruby
@@ -125,13 +125,14 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 
 ### What's implemented already ?
 
-* [x] Project#all
-* [x] Project#find
+* [x] `Project#all`
+* [x] `Project#find`
+* [x] `belongs_to` relationships
 
 ### What's not implemented yet ?
 
 * [ ] _all other models_ :scream:
-* [ ] relationships between models
+* [ ] `has_many` relationships
 
 ## Development
 
