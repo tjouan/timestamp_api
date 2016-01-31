@@ -33,6 +33,12 @@ describe TimestampAPI do
       expect(a_request(:any, api_url_for("/path?param1=value1&param2=value2"))).to have_been_made
     end
 
+    it "camelizes query parameters" do
+      stub_request(:any, api_url_for("/path?projectId=123")).to_return(body: response)
+      TimestampAPI.request(:get, "/path", project_id: "123")
+      expect(a_request(:any, api_url_for("/path?projectId=123"))).to have_been_made
+    end
+
     it "calls the API with the proper HTTP verb" do
       subject
       expect(a_request(:get, /.*/)).to have_been_made

@@ -16,6 +16,8 @@ require "timestamp_api/models/client"
 require "timestamp_api/models/task"
 
 module TimestampAPI
+  extend Utils
+
   @api_endpoint = "https://api.ontimestamp.com/api"
 
   class << self
@@ -23,8 +25,8 @@ module TimestampAPI
   end
 
   def self.request(method, path, query_params = {})
-    output(method, path, query_params) if verbose
-    response = RestClient::Request.execute(request_options(method, path, query_params))
+    output(method, path, camelize_keys(query_params)) if verbose
+    response = RestClient::Request.execute(request_options(method, path, camelize_keys(query_params)))
     modelify(JSON.parse(response))
   rescue RestClient::Forbidden
     raise InvalidAPIKey
