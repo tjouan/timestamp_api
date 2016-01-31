@@ -29,6 +29,14 @@ describe TimestampAPI::ModelDefaultAPIMethods do
       expect(TimestampAPI).to receive(:request).with(:get, "/fakes")
       Fake.all
     end
+
+    context "when `api_path` is not set" do
+      before { Fake.class_variable_set(:@@api_path, nil) }
+
+      it "raises a APIPathNotSet errorl" do
+        expect{ Fake.all }.to raise_error TimestampAPI::APIPathNotSet
+      end
+    end
   end
 
   describe ".find(id)" do
@@ -48,6 +56,14 @@ describe TimestampAPI::ModelDefaultAPIMethods do
 
       it "raises a ResourceNotFound error" do
         expect{ Fake.find("not_existing") }.to raise_error TimestampAPI::ResourceNotFound
+      end
+    end
+
+    context "when `api_path` is not set" do
+      before { Fake.class_variable_set(:@@api_path, nil) }
+
+      it "raises a APIPathNotSet errorl" do
+        expect{ Fake.all }.to raise_error TimestampAPI::APIPathNotSet
       end
     end
   end

@@ -81,4 +81,16 @@ module TimestampAPI
       "No `#{klass}` was found with id `#{id}` (API returned 404)"
     end
   end
+
+  class APIPathNotSet < StandardError
+    attr_reader :klass
+
+    def initialize(klass)
+      @klass = klass
+    end
+
+    def message
+      "API path not defined in `#{klass}` model. Use `api_path` to define it."
+    end
+  end
 end

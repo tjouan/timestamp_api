@@ -19,11 +19,13 @@ module TimestampAPI
       end
 
       def all
+        raise APIPathNotSet.new(self) if api_path.nil?
         TimestampAPI.request(:get, api_path)
       end
 
       def find(id)
         return nil if id.nil?
+        raise APIPathNotSet.new(self) if api_path.nil?
         TimestampAPI.request(:get, "#{api_path}/#{id}")
       rescue RestClient::ResourceNotFound
         raise ResourceNotFound.new(self, id)

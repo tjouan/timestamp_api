@@ -74,3 +74,13 @@ describe TimestampAPI::ResourceNotFound do
     expect(TimestampAPI::ResourceNotFound.new(Fake, 123).message).to match /123/
   end
 end
+
+describe TimestampAPI::APIPathNotSet do
+  before { fake_model("Fake") }
+
+  it "defines a custom message containing argument given" do
+    expect(TimestampAPI::APIPathNotSet.instance_methods(false)).to include :message
+    expect(TimestampAPI::APIPathNotSet.new(Fake).message).to match /Fake/
+  end
+end
+
