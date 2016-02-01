@@ -218,6 +218,7 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 * [ ] _all other models_ :scream:
 * [ ] `has_many` relationships
 * [ ] document and integrate [Inch-CI](https://inch-ci.org)
+* [ ] timers
 
 ## Development
 
