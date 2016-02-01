@@ -1,8 +1,6 @@
 require "spec_helper"
 
 describe TimestampAPI::Task do
-  let(:project) { double(:project, id: "p1") }
-
   it "inherits from Model" do
     expect(TimestampAPI::Task.superclass).to be TimestampAPI::Model
   end
@@ -12,6 +10,8 @@ describe TimestampAPI::Task do
   end
 
   describe ".for_project_id" do
+    let(:project) { double(:project, id: "p1") }
+
     subject { TimestampAPI::Task.for_project_id(project.id) }
 
     it "calls .all with proper query parameters" do

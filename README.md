@@ -77,7 +77,7 @@ Find a given user:
 ```ruby
 user = TimestampAPI::User.find(123)
 
-user.name # => "Great developer"
+user.full_name # => "Great developer"
 ```
 
 #### Tasks
@@ -93,6 +93,24 @@ task = TimestampAPI::Task.find(123)
 
 task.name         # => "My fantastic task"
 task.project.name # => "My awesome project"
+```
+
+#### TimeEntry
+
+List all time entries:
+```ruby
+TimestampAPI::TimeEntry.all
+```
+
+Find a given task:
+```ruby
+time_entry = TimestampAPI::TimeEntry.find(123)
+
+time_entry.comment        # => "Stuff got done"
+time_entry.client.name    # => "My beloved customer"
+time_entry.project.name   # => "My awesome project"
+time_entry.task.name      # => "My fantastic task"
+time_entry.user.full_name # => "Great developer"
 ```
 
 ## Objects representation
@@ -174,6 +192,7 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 * [x] `Client` model
 * [x] `Task` model
 * [x] `User` model (their `roles` could be enhanced, though)
+* [x] `TimeEntry` model
 * [x] `belongs_to` relationships
 
 ### What's not implemented yet ?
