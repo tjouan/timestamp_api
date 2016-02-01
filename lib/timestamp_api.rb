@@ -27,9 +27,10 @@ module TimestampAPI
     attr_accessor :api_endpoint, :api_key, :verbose
   end
 
-  def self.request(method, path, query_params = {})
-    output(method, path, camelize_keys(query_params)) if verbose
-    response = RestClient::Request.execute(request_options(method, path, camelize_keys(query_params)))
+  def self.request(method, path, query_params = {}, payload = {})
+    request_options = request_options(method, path, query_params, payload)
+    output(request_options) if verbose
+    response = RestClient::Request.execute(request_options)
     modelify(JSON.parse(response))
   rescue RestClient::Forbidden
     raise InvalidAPIKey
@@ -39,15 +40,16 @@ module TimestampAPI
 
 private
 
-  def self.request_options(method, path, query_params)
+  def self.request_options(method, path, query_params, payload)
     {
       method:  method,
       url:     api_endpoint + path,
+      payload: camelize_keys(payload).to_json,
       headers: {
         "X-API-Key" => api_key || ENV["TIMESTAMP_API_KEY"] || raise(MissingAPIKey),
         :accept     => :json,
         :user_agent => "TimestampAPI Ruby gem (https://github.com/alpinelab/timestamp_api)",
-        :params     => query_params
+        :params     => camelize_keys(query_params)
       }
     }
   end
@@ -59,11 +61,12 @@ private
     end
   end
 
-  def self.output(method, path, query_params)
+  def self.output(request_options)
     print "TimestampAPI ".colorize(:red)
-    print "#{method.upcase} ".colorize(:yellow)
-    full_path =  path
-    full_path += "?#{query_params.each_with_object([]) { |p, acc| acc << "#{p[0]}=#{p[1]}" }.join("&")}" unless query_params.empty?
-    puts full_path.colorize(:yellow)
+    print "#{request_options[:method].upcase} ".colorize(:yellow)
+    full_path =  request_options[:url]
+    full_path += "?#{request_options[:headers][:params].each_with_object([]) { |p, acc| acc << "#{p[0]}=#{p[1]}" }.join("&")}" unless request_options[:headers][:params].empty?
+    print full_path.colorize(:yellow)
+    puts " #{request_options[:payload] unless request_options[:payload].empty?}".colorize(:green)
   end
 end

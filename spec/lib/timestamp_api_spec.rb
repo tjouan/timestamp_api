@@ -23,20 +23,31 @@ describe TimestampAPI do
     before do
       TimestampAPI.api_key = "MY_API_KEY"
       fake_model("Fake") { has_attributes :name }
-      stub_request(:any, api_url_for("/path?param1=value1&param2=value2")).to_return(body: response)
+      stub_request(:any, api_url_for("/path?getParam1=get_value1&getParam2=get_value2")).with(body: "{\"postParam1\":\"post_value1\",\"postParam2\":\"post_value2\"}").to_return(body: response)
     end
 
-    subject { TimestampAPI.request(:get, "/path", param1: "value1", param2: "value2") }
+    subject { TimestampAPI.request(:get, "/path", {get_param1: "get_value1", get_param2: "get_value2"}, {post_param1: "post_value1", post_param2: "post_value2"}) }
 
     it "calls the API on the proper endpoint URL with proper path and proper query string parameters" do
       subject
-      expect(a_request(:any, api_url_for("/path?param1=value1&param2=value2"))).to have_been_made
+      expect(a_request(:any, api_url_for("/path?getParam1=get_value1&getParam2=get_value2"))).to have_been_made
     end
 
-    it "camelizes query parameters" do
+    it "calls the API with proper payload" do
+      subject
+      expect(a_request(:any, api_url_for("/path?getParam1=get_value1&getParam2=get_value2")).with(body: "{\"postParam1\":\"post_value1\",\"postParam2\":\"post_value2\"}")).to have_been_made
+    end
+
+    it "camelizes query parameters keys" do
       stub_request(:any, api_url_for("/path?projectId=123")).to_return(body: response)
       TimestampAPI.request(:get, "/path", project_id: "123")
       expect(a_request(:any, api_url_for("/path?projectId=123"))).to have_been_made
+    end
+
+    it "camelizes payload keys" do
+      stub_request(:any, api_url_for("/path")).to_return(body: response)
+      TimestampAPI.request(:get, "/path", {}, {post_param: 123})
+      expect(a_request(:any, api_url_for("/path")).with(body: "{\"postParam\":123}")).to have_been_made
     end
 
     it "calls the API with the proper HTTP verb" do
@@ -60,7 +71,7 @@ describe TimestampAPI do
     end
 
     context "when server returns an HTTP 403 (Unauthorized) error code" do
-      before { stub_request(:any, api_url_for("/path?param1=value1&param2=value2")).to_return(status: 403, body: "Unauthorized") }
+      before { stub_request(:any, api_url_for("/path?getParam1=get_value1&getParam2=get_value2")).to_return(status: 403, body: "Unauthorized") }
 
       it "raises a InvalidAPIKey error" do
         expect{ subject }.to raise_error TimestampAPI::InvalidAPIKey
