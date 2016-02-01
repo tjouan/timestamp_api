@@ -27,23 +27,14 @@ Or install it yourself as:
 
 ## Usage
 
-Configure your Timestamp API key by setting environment variable `TIMESTAMP_API_KEY` or manually:
-```ruby
-TimestampAPi.api_key = "YOUR_TIMESTAMP_API_KEY"
+Configure your Timestamp API key by setting environment variable `TIMESTAMP_API_KEY`:
+```shell
+$ TIMESTAMP_API_KEY="YOUR_API_KEY" bin/console
 ```
 
-#### Projects
-
-List all projects:
+Or set it manually from the console:
 ```ruby
-TimestampAPI::Project.all
-```
-
-Find a given project:
-```ruby
-project = TimestampAPI::Project.find(123)
-
-project.name # => "My awesome project"
+TimestampAPi.api_key = "YOUR_API_KEY"
 ```
 
 #### Clients
@@ -60,14 +51,53 @@ client = TimestampAPI::Client.find(123)
 client.name # => "My beloved customer"
 ```
 
-Find the client of a project
+#### Projects
+
+List all projects:
+```ruby
+TimestampAPI::Project.all
+```
+
+Find a given project:
 ```ruby
 project = TimestampAPI::Project.find(123)
 
+project.name        # => "My awesome project"
 project.client.name # => "My beloved customer"
 ```
 
-## Models
+#### Users
+
+List all users:
+```ruby
+TimestampAPI::User.all
+```
+
+Find a given user:
+```ruby
+user = TimestampAPI::User.find(123)
+
+user.name # => "Great developer"
+```
+
+#### Tasks
+
+List all tasks:
+```ruby
+TimestampAPI::Task.all
+```
+
+Find a given task:
+```ruby
+task = TimestampAPI::Task.find(123)
+
+task.name         # => "My fantastic task"
+task.project.name # => "My awesome project"
+```
+
+## Objects representation
+
+#### Models
 
 The objects are represented by model classes (that inherits from `TimestampAPI::Model`):
 ```ruby
@@ -77,6 +107,8 @@ project.class                     # => TimestampAPI::Project
 project.is_a? TimestampAPI::Model # => true
 ```
 
+#### Collections
+
 Collections of objects are represented by `TimestampAPI::Collection` that inherits from `Array` (and implement the chainable `.where(conditions)` filter method described above). It means any `Array` method works on `TimestampAPI::Collection`:
 ```ruby
 projects = TimestampAPI::Project.all
@@ -84,6 +116,19 @@ projects = TimestampAPI::Project.all
 projects.class       # => TimestampAPI::Collection
 projects.map(&:name) # => ["A project", "Another project", "One more project"]
 ```
+
+#### Relationships
+
+Models can can bound together and are accessible using a simple getter:
+
+Exemple: find the client bound to a project:
+```ruby
+project = TimestampAPI::Project.find(123)
+
+project.client.name # => "My beloved customer"
+```
+
+:information_source: First call to such a relation getter will trigger an API request and memoize the response for network optimization.
 
 ## Filtering
 
