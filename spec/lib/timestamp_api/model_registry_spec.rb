@@ -24,9 +24,9 @@ describe TimestampAPI::ModelRegistry do
     context "when klass has multiple words" do
       let(:klass) { fake_model "MultiWordModel" }
 
-      it "separates klass name words with underscores" do
+      it "camelizes klass name" do
         subject
-        expect(registry).to have_key "multi_word_model"
+        expect(registry).to have_key "multiWordModel"
       end
     end
 
@@ -35,7 +35,7 @@ describe TimestampAPI::ModelRegistry do
 
       it "de-namespaces klass name" do
         subject
-        expect(registry).to have_key "namespaced_model"
+        expect(registry).to have_key "namespacedModel"
       end
     end
 

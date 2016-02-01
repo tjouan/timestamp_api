@@ -1,5 +1,7 @@
 module TimestampAPI
   class ModelRegistry
+    extend Utils
+
     class << self
 
       @@registry = {}
@@ -20,7 +22,7 @@ module TimestampAPI
     private
 
       def registry_key(klass)
-        klass.name.split("::").last.gsub(/(.)([A-Z])/, '\1_\2').downcase
+        camelize(klass.name.split("::").last)
       end
     end
   end
