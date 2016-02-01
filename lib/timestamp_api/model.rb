@@ -25,7 +25,7 @@ module TimestampAPI
 
     def validate_init_data!
       class_basename = self.class.name.split("::").last
-      raise InvalidModelData.new(class_basename, json_data) unless json_data.is_a?(Hash) && json_data["object"] == class_basename.downcase
+      raise InvalidModelData.new(class_basename, json_data) unless json_data.is_a?(Hash) && json_data["object"] == camelize(class_basename)
     end
   end
 end

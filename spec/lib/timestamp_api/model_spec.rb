@@ -21,7 +21,7 @@ describe TimestampAPI::Model do
   end
 
   describe "#initialize" do
-    let(:json_data) { {"object" => "fake", "name" => "Georges", "undeclaredAttribute" => "hidden"} }
+    let(:json_data) { {"object" => "fake", "name" => "Georges"} }
 
     subject { Fake.new(json_data) }
 
@@ -50,7 +50,19 @@ describe TimestampAPI::Model do
     end
 
     context "with an `object` field that matches the subclass name" do
-      it "is works" do
+      it "is working" do
+        expect{ subject }.to_not raise_error
+      end
+    end
+
+    context "with a multiword `object` field that matches the subclass name" do
+      let(:json_data) { {"object" => "multiWordModel", "name" => "Georges"} }
+
+      before { fake_model("MultiWordModel") }
+
+      subject { MultiWordModel.new(json_data) }
+
+      it "is working" do
         expect{ subject }.to_not raise_error
       end
     end
