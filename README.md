@@ -39,9 +39,9 @@ TimestampAPi.api_key = "YOUR_API_KEY"
 
 #### Clients
 
-List all clients:
+List clients:
 ```ruby
-TimestampAPI::Client.all
+TimestampAPI::Client.all # => Returns all clients
 ```
 
 Find a given client:
@@ -53,24 +53,25 @@ client.name # => "My beloved customer"
 
 #### Projects
 
-List all projects:
+List projects:
 ```ruby
-TimestampAPI::Project.all
+TimestampAPI::Project.all # => Returns all projects
 ```
 
 Find a given project:
 ```ruby
 project = TimestampAPI::Project.find(123)
 
-project.name        # => "My awesome project"
-project.client.name # => "My beloved customer"
+project.name                            # => "My awesome project"
+project.client.name                     # => "My beloved customer"
+project.enter_time(123, Date.today, 60) # => Creates a 60 minutes time entry for today on task 123 and returns the created TimeEntry
 ```
 
 #### Users
 
-List all users:
+List users:
 ```ruby
-TimestampAPI::User.all
+TimestampAPI::User.all # => Returns all users
 ```
 
 Find a given user:
@@ -82,9 +83,10 @@ user.full_name # => "Great developer"
 
 #### Tasks
 
-List all tasks:
+List tasks:
 ```ruby
-TimestampAPI::Task.all
+TimestampAPI::Task.all                 # => Returns all tasks
+TimestampAPI::Task.for_project_id(123) # => Returns tasks for project 123
 ```
 
 Find a given task:
@@ -97,12 +99,13 @@ task.project.name # => "My awesome project"
 
 #### TimeEntry
 
-List all time entries:
+List time entries:
 ```ruby
-TimestampAPI::TimeEntry.all
+TimestampAPI::TimeEntry.all              # => Returns all time entries
+TimestampAPI::TimeEntry.for_task_id(123) # => Returns time entries for task 123
 ```
 
-Find a given task:
+Find a given time entry:
 ```ruby
 time_entry = TimestampAPI::TimeEntry.find(123)
 
@@ -111,6 +114,20 @@ time_entry.client.name    # => "My beloved customer"
 time_entry.project.name   # => "My awesome project"
 time_entry.task.name      # => "My fantastic task"
 time_entry.user.full_name # => "Great developer"
+```
+
+#### Event
+
+List events:
+```ruby
+TimestampAPI::Event.all # => Returns all events
+```
+
+Find a given event:
+```ruby
+event = TimestampAPI::Event.find(123)
+
+event.object # => Returns the object on which event occured
 ```
 
 ## Objects representation
@@ -193,6 +210,7 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 * [x] `Task` model
 * [x] `User` model (their `roles` could be enhanced, though)
 * [x] `TimeEntry` model
+* [x] `Event` model
 * [x] `belongs_to` relationships
 
 ### What's not implemented yet ?
