@@ -4,5 +4,9 @@ module TimestampAPI
 
     has_attributes :id, :created_at, :user_type, :first_name, :last_name, :email_address, :time_zone, :culture, :is_active,
                    :avatar_url, :last_accessed, :invited_at, :roles, :employment_type, :time_entry_mode, :importStatus, :invited
+
+    def full_name
+      "#{first_name} #{last_name}"
+    end
   end
 end
