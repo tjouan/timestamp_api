@@ -216,9 +216,12 @@ There's also a `bin/console` executable provided with this gem, if you want a RE
 ### What's not implemented yet ?
 
 * [ ] _all other models_ :scream:
+* [ ] _almost all write operations_
 * [ ] `has_many` relationships
 * [ ] document and integrate [Inch-CI](https://inch-ci.org)
 * [ ] timers
+
+Any help is lovely appreciated to complete the full feature set :heart:
 
 ## Development
 
