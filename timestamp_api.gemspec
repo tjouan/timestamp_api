@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/alpinelab/timestamp_api"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files         = `git ls-files -z lib`.split("\x0")
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "rest-client", "~> 1.7", ">= 1.7.3"
