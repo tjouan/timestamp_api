@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "rest-client", ">= 1.7.3"
+  spec.add_runtime_dependency "rest-client", "~> 1.7", ">= 1.7.3"
   spec.add_runtime_dependency "colorize"
   spec.add_runtime_dependency "hooks"
 
