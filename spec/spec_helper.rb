@@ -1,8 +1,9 @@
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+#require "codeclimate-test-reporter"
+#CodeClimate::TestReporter.start
 
 require "webmock/rspec"
-WebMock.disable_net_connect! allow: %w{codeclimate.com}
+#WebMock.disable_net_connect! allow: %w{codeclimate.com}
+WebMock.disable_net_connect!
 
 require "pry"
 
